@@ -23,3 +23,6 @@ reports/tmp/
 Thumbs.db
 .vscode/
 .idea/
+# AI Office generated local research artifacts
+reports/
+scripts/inventory_ai_bridge_web_*.ps1

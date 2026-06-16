@@ -1,0 +1,30 @@
+﻿{
+  "project": "WS AI Office",
+  "version": "0.1.0-docs",
+  "description": "Escritorio virtual de IA com agentes especializados, orquestracao, governanca e aprovacao humana.",
+  "agents": [
+    { "id": "aninha", "name": "Aninha", "role": "CEO IA / Orquestradora", "autonomy_level": 2 },
+    { "id": "byte", "name": "Byte", "role": "Dev IA", "autonomy_level": 2 },
+    { "id": "lala", "name": "Lala", "role": "Product IA", "autonomy_level": 2 },
+    { "id": "dinkwink", "name": "DinkWink", "role": "Arquiteto IA", "autonomy_level": 2 },
+    { "id": "fiscal", "name": "Fiscal", "role": "Auditor IA", "autonomy_level": 2 },
+    { "id": "raspador", "name": "Raspador", "role": "SDR / Lead Miner IA", "autonomy_level": 1 },
+    { "id": "traffic", "name": "Zezinho Traffic", "role": "Gestor de Trafego IA", "autonomy_level": 1 },
+    { "id": "call", "name": "Call", "role": "Call / Closer IA", "autonomy_level": 1 },
+    { "id": "suporte", "name": "Suporte", "role": "Atendimento IA", "autonomy_level": 1 },
+    { "id": "controller", "name": "Controller", "role": "Financeiro IA", "autonomy_level": 1 },
+    { "id": "juridico", "name": "Juridico", "role": "Compliance IA", "autonomy_level": 1 },
+    { "id": "documentador", "name": "Documentador", "role": "Docs IA", "autonomy_level": 2 }
+  ],
+  "approval_required_for": [
+    "deploy",
+    "commit",
+    "push",
+    "external_message",
+    "paid_ads_change",
+    "financial_action",
+    "legal_commitment",
+    "destructive_command",
+    "secrets_access"
+  ]
+}

@@ -136,3 +136,11 @@ Validated safety flags:
 Remote smoke:
 
     powershell -NoProfile -ExecutionPolicy Bypass -File scripts\smoke_railway_remote_readonly.ps1
+
+## Local gateway correction
+
+Architectural correction: WS AI Office will not use `D:\dev\autocode\ai-bridge-local` as the implementation base.
+
+The local gateway reference to use is the one already present inside `D:\dev\autocode\ai-bridge`, because that gateway communicates with the Railway API.
+
+The separate `ai-bridge-local` folder is not the official base for WS AI Office implementation.

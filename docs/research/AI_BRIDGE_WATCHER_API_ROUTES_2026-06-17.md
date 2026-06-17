@@ -1,0 +1,1039 @@
+﻿# AI Bridge Watcher API Routes
+
+Status: readonly route extraction from ai-bridge apps/watcher-api/src/server.mjs.
+
+## Source
+
+Repository:
+
+    D:\dev\autocode\ai-bridge
+
+Source file:
+
+    apps/watcher-api/src/server.mjs
+
+Git status:
+
+    ## main...origin/main
+    ?? docs/EXTENSION_MESSAGE_TYPES_2026-06-08.md
+    ?? scripts/watcher/diag_extension_api_events.mjs
+    ?? scripts/watcher/diag_gateway_queue_notice_20260608.ps1
+    ?? scripts/watcher/diag_payload_and_empty_next_action.mjs
+    ?? scripts/watcher/diag_railway_all.ps1
+    ?? scripts/watcher/diag_railway_bridge_db_state.mjs
+    ?? scripts/watcher/diag_railway_bridge_deep.ps1
+    ?? scripts/watcher/diag_stop_point_api_db.mjs
+    ?? scripts/watcher/diag_stop_point_extension.ps1
+    ?? scripts/watcher/diag_target_command_events_strict.mjs
+    ?? scripts/watcher/inspect_ack_flow_0121_20260609.ps1
+    ?? scripts/watcher/inspect_auto_recover_stale_interchat_20260609.ps1
+    ?? scripts/watcher/inspect_extension_delivery_sweep_20260608.ps1
+    ?? scripts/watcher/inspect_extension_next_action_flow_20260609.ps1
+    ?? scripts/watcher/inspect_interchat_delivery_0120_failure_20260609.ps1
+    ?? scripts/watcher/inspect_next_action_contract.ps1
+    ?? scripts/watcher/inspect_post_event_endpoint_20260609.ps1
+    ?? scripts/watcher/patch_next_action_contract_and_extension_guard.cjs
+    ?? scripts/watcher/patch_next_action_contract_and_extension_guard_v2.cjs
+    ?? scripts/watcher/smoke_interchat_roundtrip_0120_20260609.ps1
+    ?? scripts/watcher/smoke_interchat_roundtrip_0121_20260609.ps1
+    ?? scripts/watcher/smoke_interchat_roundtrip_0122_20260609.ps1
+
+HEAD:
+
+    c852816 (HEAD -> main, origin/main, origin/HEAD) Fix empty next-action contract and extension guard
+
+## Purpose
+
+Extract likely route, request, response, database and command-flow evidence from server.mjs before WS AI Office implements any compatibility layer.
+
+This document is evidence only. It does not approve execution.
+
+## Route evidence
+
+- server.mjs:15: if (process.env.PGSSLMODE === "disable") return false;
+- server.mjs:16: if (process.env.PGSSLMODE === "require") return { rejectUnauthorized: false };
+- server.mjs:19: const url = new URL(connectionString);
+- server.mjs:21: if (sslMode === "disable") return false;
+- server.mjs:22: if (sslMode === "require") return { rejectUnauthorized: false };
+- server.mjs:25: if (url.hostname.endsWith(".railway.internal") || url.hostname === "postgres.railway.internal") {
+- server.mjs:51: if (hasPgVariableConfig()) {
+- server.mjs:74: if (pool) {
+- server.mjs:118: if (hasPgVariableConfig()) {
+- server.mjs:127: if (!databaseUrl) return payload;
+- server.mjs:130: const url = new URL(databaseUrl);
+- server.mjs:133: payload.db_name = url.pathname ? url.pathname.replace(/^\//, "") : null;
+- server.mjs:217: if (timer) clearTimeout(timer);
+- server.mjs:227: if (hasPgVariableConfig()) {
+- server.mjs:241: if (databaseUrl && process.env.DB_PROBE_INCLUDE_DATABASE_URL === "1") {
+- server.mjs:287: if (!pool) return { ok: false, reason: "database_url_missing" };
+- server.mjs:338: if (size > MAX_JSON_BODY_BYTES) {
+- server.mjs:347: if (!body.trim()) {
+- server.mjs:393: if (!pool) {
+- server.mjs:599: if (action !== "run-template") {
+- server.mjs:609: if (!templateId) {
+- server.mjs:613: if (templateId !== "run-script") {
+- server.mjs:617: if (!scriptPathRaw) {
+- server.mjs:625: if (lower.endsWith(".ps1")) {
+- server.mjs:628: } else if (lower.endsWith(".py")) {
+- server.mjs:669: if (!id || !type) return null;
+- server.mjs:719: if (!id) throw new Error("command_id_required");
+- server.mjs:763: if (!commandId) throw new Error("command_id_required");
+- server.mjs:764: if (!action) throw new Error("action_required");
+- server.mjs:765: if (!targetChatId) throw new Error("target_chat_id_required");
+- server.mjs:778: if (isApiRejectionReplyToWatcherApi) {
+- server.mjs:868: if (!chatId) throw new Error('chat_id_required');
+- server.mjs:884: if (payload.last_submitted_command_id) {
+- server.mjs:893: if (!chatId) throw new Error("chat_id_required");
+- server.mjs:895: if (!lastMessageHash) throw new Error("last_message_hash_required");
+- server.mjs:928: if (!msg || typeof msg !== "object") continue;
+- server.mjs:952: if (re.test(text)) facts.push(buildBrainFact(row, type, severity, label, text.slice(-1200), { rule: type }));
+- server.mjs:993: if (brainSemanticWorkerRunning) return;
+- server.mjs:1008: if (chatId) { params.push(chatId); where.push(`chat_id = $${params.length}`); }
+- server.mjs:1009: if (factType) { params.push(factType); where.push(`fact_type = $${params.length}`); }
+- server.mjs:1010: if (activeOnly) { where.push("is_active = true"); }
+- server.mjs:1018: if (!chatId) return [];
+- server.mjs:1028: if (!targetChatId) throw new Error("chat_id_required");
+- server.mjs:1048: if (result.rowCount === 0) {
+- server.mjs:1122: if (!apply) {
+- server.mjs:1189: if (!apply) {
+- server.mjs:1240: if (!sourceChatId || !originalCommandId) return null;
+- server.mjs:1289: if (!apply) {
+- server.mjs:1413: if (!apply) {
+- server.mjs:1425: if (candidates.rows.length === 0) {
+- server.mjs:1472: if (sendFeedback) {
+- server.mjs:1532: if (!apply) {
+- server.mjs:1543: if (candidates.rows.length === 0) {
+- server.mjs:1595: if (sendFeedback) {
+- server.mjs:1617: if (!commandId) throw new Error("command_id_required");
+- server.mjs:1621: if (finalStatus === "acked") {
+- server.mjs:1642: if (isLocal && !row.has_terminal_event) {
+- server.mjs:1655: if (hasWorkerExecutionResult) {
+- server.mjs:1690: if (row) {
+- server.mjs:1719: if (value === undefined || value === null) return "";
+- server.mjs:1720: if (typeof value === "string") return value.trim();
+- server.mjs:1721: if (typeof value === "number" || typeof value === "boolean") return String(value);
+- server.mjs:1729: if (!value || typeof value !== "object" || !(key in value)) {
+- server.mjs:1737: if (text) return text;
+- server.mjs:1769: if (explicit) return explicit;
+- server.mjs:1773: if (targetChatId && chatId === targetChatId) return "inbound";
+- server.mjs:1774: if (sourceChatId && chatId === sourceChatId) return "outbound";
+- server.mjs:1781: if (!chatId) {
+- server.mjs:1789: if (!messageKinds.has(kind) || !messageText) return { persisted: false, reason: !messageKinds.has(kind) ? "non_message_event" : "message_text_missing" };
+- server.mjs:2011: const url = new URL(req.url ?? "/", "http://localhost");
+- server.mjs:2013: if (req.method === "GET" && url.pathname === "/health") {
+- server.mjs:2019: if (req.method === "GET" && url.pathname === "/ready") {
+- server.mjs:2026: if (req.method === "GET" && url.pathname === "/debug/db") {
+- server.mjs:2036: if (req.method === "GET" && url.pathname === "/debug/db-probe") {
+- server.mjs:2047: if (req.method === "GET" && url.pathname === "/bridge/health") {
+- server.mjs:2053: if (req.method === "GET" && url.pathname === "/bridge/commands/timeline") {
+- server.mjs:2069: if (req.method === "POST" && url.pathname === "/bridge/commands") {
+- server.mjs:2085: if (req.method === "GET" && url.pathname === "/api/brain/facts") {
+- server.mjs:2099: if (req.method === "GET" && url.pathname === "/bridge/next-action") {
+- server.mjs:2128: if (req.method === "POST" && url.pathname === "/bridge/message-observations") {
+- server.mjs:2132: if (result.ok && result.observation && result.observation.id) {
+- server.mjs:2148: if (req.method === "POST" && url.pathname === "/bridge/command-candidates") {
+- server.mjs:2152: if (result.ok && result.observation && result.observation.id) {
+- server.mjs:2168: if (req.method === "GET" && url.pathname === "/bridge/ingest/status") {
+- server.mjs:2184: if (req.method === "POST" && url.pathname === "/bridge/ingest/promote") {
+- server.mjs:2200: if (req.method === "POST" && url.pathname === "/api/brain/ingest") {
+- server.mjs:2212: if (req.method === "POST" && url.pathname === "/bridge/commands/cancel-stale-queued") {
+- server.mjs:2230: if (req.method === "POST" && url.pathname === "/bridge/commands/audit-acked-unexecuted-local-capability") {
+- server.mjs:2247: if (req.method === "POST" && url.pathname === "/bridge/commands/fail-stale-unexecuted-local-capability") {
+- server.mjs:2264: if (req.method === "POST" && url.pathname === "/bridge/commands/recover-stale-interchat-deliveries") {
+- server.mjs:2280: if (req.method === "POST" && url.pathname === "/bridge/commands/auto-ack-stale-delivered") {
+- server.mjs:2296: if (req.method === "POST" && url.pathname === "/bridge/acks") {
+- server.mjs:2312: if (req.method === 'POST' && url.pathname === '/bridge/visibility-resume') {
+- server.mjs:2329: if (req.method === "POST" && url.pathname === "/bridge/events") {
+- server.mjs:2346: if (req.method === "POST" && url.pathname === "/git-op") {
+- server.mjs:2363: if (req.method === "POST" && url.pathname === "/codex-analyze") {
+- server.mjs:2379: if (req.method === "POST" && url.pathname === "/db-query") {
+- server.mjs:2396: if (req.method === "POST" && url.pathname === "/file-ops") {
+- server.mjs:2413: if (req.method === 'POST' && url.pathname === '/cleanup') {
+- server.mjs:2421: if (req.method === "POST" && url.pathname === "/enqueue") {
+- server.mjs:2430: if (req.method === "GET" && url.pathname === "/claim") {
+- server.mjs:2440: if (req.method === "POST" && url.pathname === "/ack") {
+- server.mjs:2449: if (req.method === "GET" && url.pathname === "/queue-stats") {
+- server.mjs:2460: if (req.method === "POST" && url.pathname === "/ingest") {
+- server.mjs:2463: if (req.method === "GET" && url.pathname === "/claim") {
+- server.mjs:2466: if (req.method === "POST" && url.pathname === "/ack") {
+- server.mjs:2469: if (req.method === "GET" && url.pathname === "/broker-stats") {
+- server.mjs:2482: if (pool) {
+- server.mjs:2504: if (chatWorkers.get(chatId) === "running") return;
+- server.mjs:2508: if (!claimResult.ok || !claimResult.message) return;
+
+## Request/envelope evidence
+
+- server.mjs:2: import { createHash } from "node:crypto"; import { Pool } from "pg"; import { handleGitOp } from "./git-op.mjs"; import { handleCodexAnalyze } from "./codex-analyze.mjs"; import { handleDbQuery, setDbQueryPool } from "./db-query.mjs"; import { enqueueMessage, 
+- server.mjs:11: // GIT_OP_CLOUD_ACTION_V2 - imported from ./git-op.mjs
+- server.mjs:103: function sanitizedDatabaseDebugPayload() {
+- server.mjs:104: const payload = {
+- server.mjs:119: payload.db_host = process.env.PGHOST || null;
+- server.mjs:120: payload.db_port = process.env.PGPORT || null;
+- server.mjs:121: payload.db_name = process.env.PGDATABASE || null;
+- server.mjs:122: payload.url_sslmode = null;
+- server.mjs:123: payload.effective_ssl = process.env.PGSSLMODE === "require" ? "enabled" : "disabled";
+- server.mjs:124: return payload;
+- server.mjs:127: if (!databaseUrl) return payload;
+- server.mjs:131: payload.db_host = url.hostname || null;
+- server.mjs:132: payload.db_port = url.port || null;
+- server.mjs:133: payload.db_name = url.pathname ? url.pathname.replace(/^\//, "") : null;
+- server.mjs:134: payload.url_sslmode = url.searchParams.get("sslmode");
+- server.mjs:136: payload.db_host = "parse_failed";
+- server.mjs:140: payload.effective_ssl = ssl === false ? "disabled" : "enabled";
+- server.mjs:142: return payload;
+- server.mjs:152: message: safeError(error)
+- server.mjs:180: message: `probe timed out after ${timeoutMs}ms`
+- server.mjs:224: async function sanitizedDatabaseProbePayload() {
+- server.mjs:300: const message = error instanceof Error ? error.message : String(error);
+- server.mjs:301: return message.includes("://") ? "database_check_failed" : message;
+- server.mjs:304: function writeJson(res, statusCode, payload) {
+- server.mjs:309: res.end(JSON.stringify(payload, null, 2) + "\n");
+- server.mjs:313: const MAX_JSON_BODY_BYTES = Number(process.env.MAX_JSON_BODY_BYTES ?? 256000);
+- server.mjs:329: async function readJsonBody(req) {
+- server.mjs:331: let body = "";
+- server.mjs:338: if (size > MAX_JSON_BODY_BYTES) {
+- server.mjs:339: reject(new Error("json_body_too_large"));
+- server.mjs:343: body += chunk;
+- server.mjs:347: if (!body.trim()) {
+- server.mjs:353: resolve(JSON.parse(body));
+- server.mjs:367: alter table if exists brain.facts add column if not exists fact_key text;
+- server.mjs:368: alter table if exists brain.facts add column if not exists fact_type text;
+- server.mjs:369: alter table if exists brain.facts add column if not exists chat_id text;
+- server.mjs:371: alter table if exists brain.facts add column if not exists severity text not null default 'info';
+- server.mjs:372: alter table if exists brain.facts add column if not exists title text;
+- server.mjs:373: alter table if exists brain.facts add column if not exists fact_text text;
+- server.mjs:374: alter table if exists brain.facts add column if not exists evidence text;
+- server.mjs:379: update brain.facts set fact_key = coalesce(fact_key, md5(coalesce(chat_id,'') || coalesce(fact_type,'') || coalesce(fact_text,'') || id::text)) where fact_key is null;
+- server.mjs:381: update brain.facts set fact_text = coalesce(fact_text, evidence, title, 'legacy fact') where fact_text is null;
+- server.mjs:404: chat_id text not null,
+- server.mjs:405: platform text,
+- server.mjs:406: url text,
+- server.mjs:407: title text,
+- server.mjs:408: message_count integer not null default 0,
+- server.mjs:409: last_message_hash text not null,
+- server.mjs:413: unique (chat_id, last_message_hash)
+- server.mjs:416: await client.query(`create index if not exists brain_conversation_snapshots_chat_created_idx on brain.conversation_snapshots (chat_id, created_at desc)`);
+- server.mjs:422: chat_id text not null,
+- server.mjs:424: fact_type text not null,
+- server.mjs:425: severity text not null default 'info',
+- server.mjs:426: status text not null default 'open',
+- server.mjs:428: title text,
+- server.mjs:429: summary text,
+- server.mjs:431: dedupe_key text not null,
+- server.mjs:432: source text not null default 'semantic_worker_v1',
+- server.mjs:440: await client.query(`create index if not exists brain_facts_chat_last_seen_idx on brain.facts (chat_id, last_seen_at desc)`);
+- server.mjs:445: command_id text not null unique,
+- server.mjs:446: source_chat_id text,
+- server.mjs:447: target_chat_id text not null,
+- server.mjs:448: action text not null,
+- server.mjs:449: delivery_kind text,
+- server.mjs:450: conversation_id text,
+- server.mjs:451: from_agent text,
+- server.mjs:452: payload_json jsonb not null,
+- server.mjs:453: status text not null default 'queued',
+- server.mjs:458: last_error text
+- server.mjs:463: create index if not exists bridge_commands_target_status_created_idx
+- server.mjs:464: on bridge_commands (target_chat_id, status, created_at)
+- server.mjs:475: add column if not exists runner_id text,
+- server.mjs:477: add column if not exists stdout_tail text,
+- server.mjs:478: add column if not exists stderr_tail text,
+- server.mjs:479: add column if not exists last_progress_message text
+- server.mjs:485: command_id text not null,
+- server.mjs:486: event_type text not null,
+- server.mjs:487: runner_id text,
+- server.mjs:491: stdout_tail text,
+- server.mjs:492: stderr_tail text,
+- server.mjs:493: message text,
+- server.mjs:494: payload_json jsonb,
+- server.mjs:501: chat_id text,
+- server.mjs:502: source text,
+- server.mjs:503: kind text not null,
+- server.mjs:504: payload_json jsonb not null,
+- server.mjs:511: on bridge_events (chat_id, created_at)
+- server.mjs:517: SELECT parent.command_id AS original_command_id,
+- server.mjs:518: parent.source_chat_id AS waiting_chat_id,
+- server.mjs:519: parent.target_chat_id AS requested_chat_id,
+- server.mjs:523: COALESCE(parent.payload_json->>'message', parent.payload_json->>'text', '') AS original_message,
+- server.mjs:527: WHERE parent.delivery_kind = 'inter_agent_message'
+- server.mjs:528: AND parent.source_chat_id IS NOT NULL
+- server.mjs:529: AND parent.target_chat_id IS NOT NULL
+- server.mjs:533: WHERE (reply.payload_json->>'reply_to_command_id') = parent.command_id
+- server.mjs:534: AND reply.source_chat_id = parent.target_chat_id
+- server.mjs:535: AND reply.target_chat_id = parent.source_chat_id
+- server.mjs:541: chat_id text primary key,
+- server.mjs:542: platform text,
+- server.mjs:545: last_source text,
+- server.mjs:552: alter table if exists app.chat_threads add column if not exists chat_id text;
+- server.mjs:553: alter table if exists app.chat_threads add column if not exists platform text;
+- server.mjs:556: alter table if exists app.chat_threads add column if not exists last_source text;
+- server.mjs:558: create unique index if not exists app_chat_threads_chat_id_uidx
+- server.mjs:559: on app.chat_threads (chat_id);
+- server.mjs:563: create table if not exists app.chat_messages (
+- server.mjs:566: chat_id text not null,
+- server.mjs:567: direction text,
+- server.mjs:568: role text,
+- server.mjs:569: source text,
+- server.mjs:570: kind text,
+- server.mjs:571: message_text text,
+- server.mjs:572: conversation_id text,
+- server.mjs:573: command_id text,
+- server.mjs:574: payload_json jsonb not null,
+- server.mjs:580: create unique index if not exists app_chat_messages_event_id_uidx
+- server.mjs:581: on app.chat_messages (event_id)
+- server.mjs:586: create index if not exists app_chat_messages_chat_created_idx
+- server.mjs:587: on app.chat_messages (chat_id, created_at)
+- server.mjs:597: const action = String(original.action || "").trim();
+- server.mjs:599: if (action !== "run-template") {
+- server.mjs:603: const payload = original.payload && typeof original.payload === "object" ? original.payload : {};
+- server.mjs:604: const templateId = String(payload.template_id || original.template_id || "").trim();
+- server.mjs:605: const scriptPathRaw = String(payload.script_path || original.script_path || "").trim();
+- server.mjs:606: const cwd = String(payload.cwd || original.cwd || "D:/dev/autocode/ai-bridge").trim();
+- server.mjs:607: const timeoutSeconds = Number(payload.timeout_seconds || original.timeout_seconds || 90);
+- server.mjs:637: action: "run-command",
+- server.mjs:638: target_chat_id: original.target_chat_id || "gateway-brain-supervisor",
+- server.mjs:640: payload: {
+- server.mjs:641: ...payload,
+- server.mjs:642: normalized_from_action: "run-template",
+- server.mjs:671: const payload = {
+- server.mjs:674: source_chat_id: options.source_chat_id || null,
+- server.mjs:675: target_chat_id: options.target_chat_id || null,
+- server.mjs:676: action: options.action || null,
+- server.mjs:678: ...options.payload
+- server.mjs:684: command_id,
+- server.mjs:692: message,
+- server.mjs:693: payload_json
+- server.mjs:696: returning id, command_id, event_type, message, payload_json, created_at
+- server.mjs:707: options.message || null,
+- server.mjs:708: JSON.stringify(payload)
+- server.mjs:719: if (!id) throw new Error("command_id_required");
+- server.mjs:723: select id, command_id, source_chat_id, target_chat_id, action, delivery_kind,
+- server.mjs:727: where command_id = $1
+- server.mjs:735: select id, command_id, event_type, runner_id, pid, return_code, duration_ms,
+- server.mjs:736: message, payload_json, created_at
+- server.mjs:738: where command_id = $1
+- server.mjs:755: const commandId = String(command.command_id || "").trim();
+- server.mjs:756: const action = String(command.action || "").trim();
+- server.mjs:757: const targetChatId = canonicalChatId(command.target_chat_id);
+- server.mjs:758: const sourceChatId = canonicalChatId(command.source_chat_id || "");
+- server.mjs:759: const deliveryKind = String(command.delivery_kind || "inter_agent_message");
+- server.mjs:763: if (!commandId) throw new Error("command_id_required");
+- server.mjs:764: if (!action) throw new Error("action_required");
+- server.mjs:765: if (!targetChatId) throw new Error("target_chat_id_required");
+- server.mjs:768: const replyToCommandId = String(command.reply_to_command_id || command.replyToCommandId || "").trim();
+- server.mjs:770: action === "send-chat-message" &&
+- server.mjs:771: targetChatId === "watcher-api" &&
+- server.mjs:780: source_chat_id: sourceChatId || null,
+- server.mjs:781: target_chat_id: targetChatId,
+- server.mjs:782: action,
+- server.mjs:784: message: "suppressed api rejection reply to watcher-api",
+- server.mjs:785: payload: {
+- server.mjs:789: reply_to_command_id: replyToCommandId
+- server.mjs:796: command_id: commandId,
+- server.mjs:808: command_id,
+- server.mjs:809: source_chat_id,
+- server.mjs:810: target_chat_id,
+- server.mjs:811: action,
+- server.mjs:815: payload_json,
+- server.mjs:819: on conflict (command_id) do update
+- server.mjs:820: set payload_json = excluded.payload_json
+- server.mjs:821: returning id, command_id, status, created_at
+- server.mjs:826: targetChatId,
+- server.mjs:827: action,
+- server.mjs:837: source_chat_id: sourceChatId || null,
+- server.mjs:838: target_chat_id: targetChatId,
+- server.mjs:839: action,
+- server.mjs:841: message: "command queued by API",
+- server.mjs:842: payload: { bridge_command_id: row?.id || null, delivery_kind: deliveryKind, conversation_id: conversationId }
+- server.mjs:853: `SELECT * FROM pending_replies WHERE waiting_chat_id = $1 ORDER BY original_created_at ASC LIMIT 10`,
+- server.mjs:865: async function handleVisibilityResume(body = {}) {
+- server.mjs:867: const chatId = canonicalChatId(body.chat_id || body.chatId || body.source_chat_id || body.sourceChatId || '');
+- server.mjs:868: if (!chatId) throw new Error('chat_id_required');
+- server.mjs:869: const payload = {
+- server.mjs:870: ...body,
+- server.mjs:871: chat_id: chatId,
+- server.mjs:872: visibility_state: String(body.visibility_state || body.visibilityState || '').slice(0, 80),
+- server.mjs:873: focused: body.focused === true,
+- server.mjs:874: visible: body.visible === true,
+- server.mjs:875: extension_version: String(body.extension_version || body.extensionVersion || '').slice(0, 80),
+- server.mjs:876: url: String(body.url || '').slice(0, 2000),
+- server.mjs:877: last_observed_message_hash: String(body.last_observed_message_hash || body.lastObservedMessageHash || '').slice(0, 200),
+- server.mjs:878: last_submitted_command_id: String(body.last_submitted_command_id || body.lastSubmittedCommandId || '').slice(0, 200),
+- server.mjs:879: last_api_ack_id: String(body.last_api_ack_id || body.lastApiAckId || '').slice(0, 200)
+- server.mjs:881: const event = await insertBridgeEvent({ chat_id: chatId, source: 'extension_visibility_resume', kind: 'visibility_resume', payload });
+- server.mjs:884: if (payload.last_submitted_command_id) {
+- server.mjs:885: try { timeline_status = await commandTimeline(payload.last_submitted_command_id); } catch (error) { timeline_status = { error: error && error.message ? error.message : String(error) }; }
+- server.mjs:887: return { ok: true, event, chat_id: chatId, pending_replies, timeline_status };
+- server.mjs:890: async function ingestBrainSnapshot(body) {
+- server.mjs:892: const chatId = canonicalChatId(body && body.chat_id);
+- server.mjs:893: if (!chatId) throw new Error("chat_id_required");
+- server.mjs:894: const lastMessageHash = String(body && body.last_message_hash || "").trim();
+- server.mjs:895: if (!lastMessageHash) throw new Error("last_message_hash_required");
+- server.mjs:896: const snapshot = body && body.snapshot && typeof body.snapshot === "object" ? body.snapshot : {};
+- server.mjs:900: (chat_id, platform, url, title, message_count, last_message_hash, snapshot_json)
+- server.mjs:902: on conflict (chat_id, last_message_hash) do nothing
+- server.mjs:903: returning id, chat_id, last_message_hash, created_at
+- server.mjs:907: String(body && body.platform || "chatgpt").slice(0, 64),
+- server.mjs:908: String(body && body.url || "").slice(0, 2048),
+- server.mjs:909: String(body && body.title || "").slice(0, 512),
+- server.mjs:910: Number.isFinite(Number(body && body.message_count)) ? Number(body.message_count) : 0,
+- server.mjs:911: lastMessageHash,
+- server.mjs:916: return { inserted: Boolean(inserted), snapshot: inserted || { chat_id: chatId, last_message_hash: lastMessageHash } };
+- server.mjs:923: function snapshotSearchText(row) {
+- server.mjs:925: const parts = [row.title || "", snap.title || "", snap.last_message || "", snap.lastMessage || "", snap.text || "", snap.content || ""];
+- server.mjs:926: const messages = Array.isArray(snap.messages) ? snap.messages : [];
+- server.mjs:927: for (const msg of messages.slice(-12)) {
+- server.mjs:929: parts.push(`${msg.role || msg.author || msg.from || ""}: ${msg.text || msg.content || msg.message || ""}`);
+
+## Response/status evidence
+
+- server.mjs:136: payload.db_host = "parse_failed";
+- server.mjs:148: function safeDbProbeError(error) {
+- server.mjs:150: name: error?.name || null,
+- server.mjs:151: code: error?.code || null,
+- server.mjs:152: message: safeError(error)
+- server.mjs:171: function timeoutResult(name, startedAt, timeoutMs) {
+- server.mjs:174: ok: false,
+- server.mjs:177: error: {
+- server.mjs:193: const result = await probePool.query("select 1::int as ok");
+- server.mjs:196: ok: true,
+- server.mjs:198: row_ok: result.rows?.[0]?.ok === 1
+- server.mjs:200: } catch (error) {
+- server.mjs:203: ok: false,
+- server.mjs:205: error: safeDbProbeError(error)
+- server.mjs:211: timer = setTimeout(() => resolve(timeoutResult(name, startedAt, timeoutMs)), timeoutMs);
+- server.mjs:287: if (!pool) return { ok: false, reason: "database_url_missing" };
+- server.mjs:292: const result = await client.query("select now() as now, current_database() as database");
+- server.mjs:293: return { ok: true, ...result.rows[0] };
+- server.mjs:299: function safeError(error) {
+- server.mjs:300: const message = error instanceof Error ? error.message : String(error);
+- server.mjs:301: return message.includes("://") ? "database_check_failed" : message;
+- server.mjs:304: function writeJson(res, statusCode, payload) {
+- server.mjs:305: res.writeHead(statusCode, {
+- server.mjs:339: reject(new Error("json_body_too_large"));
+- server.mjs:355: reject(new Error("malformed_json"));
+- server.mjs:359: req.on("error", reject);
+- server.mjs:394: throw new Error("database_url_missing");
+- server.mjs:453: status text not null default 'queued',
+- server.mjs:456: delivered_at timestamptz,
+- server.mjs:457: acked_at timestamptz,
+- server.mjs:458: last_error text
+- server.mjs:530: AND parent.status IN ('queued','retry','processing','delivered')
+- server.mjs:610: throw new Error("run_template_requires_template_id");
+- server.mjs:614: throw new Error(`unsupported_template_id:${templateId}`);
+- server.mjs:618: throw new Error("run_script_requires_script_path");
+- server.mjs:632: throw new Error("run_script_requires_ps1_or_py");
+- server.mjs:656: QUEUED: 30,
+- server.mjs:659: ACKED: 100,
+- server.mjs:661: FAILED: 100
+- server.mjs:681: const result = await pool.query(
+- server.mjs:712: return result.rows[0] || null;
+- server.mjs:719: if (!id) throw new Error("command_id_required");
+- server.mjs:724: conversation_id, status, delivery_attempts, created_at, delivered_at,
+- server.mjs:725: claimed_at, started_at, heartbeat_at, finished_at, acked_at, last_error
+- server.mjs:763: if (!commandId) throw new Error("command_id_required");
+- server.mjs:764: if (!action) throw new Error("action_required");
+- server.mjs:765: if (!targetChatId) throw new Error("target_chat_id_required");
+- server.mjs:786: reason: "api_rejection_feedback_replies_are_not_queued",
+- server.mjs:794: ok: true,
+- server.mjs:799: reason: "api_rejection_feedback_replies_are_not_queued"
+- server.mjs:805: const result = await client.query(
+- server.mjs:818: values ($1,$2,$3,$4,$5,$6,$7,$8::jsonb,'queued')
+- server.mjs:835: const row = result.rows[0];
+- server.mjs:836: await insertBridgeCommandEvent(commandId, "QUEUED", {
+- server.mjs:840: status: row?.status || "queued",
+- server.mjs:841: message: "command queued by API",
+- server.mjs:852: const result = await pool.query(
+- server.mjs:859: const statusResult = { rows: [] };
+- server.mjs:861: return result.rows;
+- server.mjs:868: if (!chatId) throw new Error('chat_id_required');
+- server.mjs:885: try { timeline_status = await commandTimeline(payload.last_submitted_command_id); } catch (error) { timeline_status = { error: error && error.message ? error.message : String(error) }; }
+- server.mjs:887: return { ok: true, event, chat_id: chatId, pending_replies, timeline_status };
+- server.mjs:893: if (!chatId) throw new Error("chat_id_required");
+- server.mjs:895: if (!lastMessageHash) throw new Error("last_message_hash_required");
+- server.mjs:897: const result = await pool.query(
+- server.mjs:915: const inserted = result.rows[0] || null;
+- server.mjs:957: add("error_detected", "error", "Error or failure signal detected.", /(traceback|exception|error|erro|failed|failure|falhou|rejected|malformed|timeout|NameError|TypeError|SyntaxError)/i);
+- server.mjs:958: add("task_completed", "info", "Completion or success signal detected.", /(TASK_DONE|DISPATCH_QUEUED|commit|push|acked|concluido|concluÃƒÆ’Ã‚Â­do|feito|done|passed|ok": true|returncode": 0)/i);
+- server.mjs:997: } catch (error) {
+- server.mjs:998: console.warn("[BRAIN_SEMANTIC_WORKER_ERROR]", error?.message || error);
+- server.mjs:1013: const result = await pool.query(`select id,fact_key,fact_type,chat_id,source_snapshot_id,severity,title,fact_text,evidence,metadata,is_active,created_at,updated_at from brain.facts ${whereSql} order by created_at desc limit $${params.length}`, params);
+- server.mjs:1014: return result.rows;
+- server.mjs:1028: if (!targetChatId) throw new Error("chat_id_required");
+- server.mjs:1035: const result = await client.query(
+- server.mjs:1040: and status in ('queued', 'retry')
+- server.mjs:1048: if (result.rowCount === 0) {
+- server.mjs:1053: const row = result.rows[0];
+- server.mjs:1060: delivered_at = now(),
+- server.mjs:1061: last_error = null
+- server.mjs:1093: } catch (error) {
+- server.mjs:1095: throw error;
+- server.mjs:1101: async function cancelStaleQueuedCommands(body = {}) {
+- server.mjs:1114: where status = 'queued'
+- server.mjs:1124: ok: true,
+- server.mjs:1134: const result = await pool.query(
+- server.mjs:1137: set status = 'failed',
+- server.mjs:1138: acked_at = coalesce(acked_at, now()),
+- server.mjs:1139: last_error = concat_ws('; ', nullif(last_error, ''), 'cancelled_stale_queued')
+- server.mjs:1143: where status = 'queued'
+- server.mjs:1154: ok: true,
+- server.mjs:1158: updated_count: result.rowCount,
+- server.mjs:1159: commands: result.rows
+- server.mjs:1163: async function autoAckStaleDeliveredCommands(body = {}) {
+- server.mjs:1174: select command_id, action, target_chat_id, status, delivered_at, acked_at
+- server.mjs:1179: -- AUTO_ACK_EXCLUDE_SEND_CHAT_MESSAGE_20260608: send-chat-message must be recovered/retried, not auto-acked.
+- server.mjs:1181: and delivered_at is not null
+- server.mjs:1182: and delivered_at < now() - ($1::int * interval '1 minute')
+- server.mjs:1183: order by delivered_at asc
+- server.mjs:1191: ok: true,
+- server.mjs:1201: const result = await pool.query(
+- server.mjs:1204: set status = 'acked',
+- server.mjs:1205: acked_at = coalesce(acked_at, now()),
+- server.mjs:1206: last_error = concat_ws('; ', nullif(last_error, ''), 'auto_ack_stale_delivered')
+- server.mjs:1213: -- AUTO_ACK_EXCLUDE_SEND_CHAT_MESSAGE_20260608: send-chat-message must be recovered/retried, not auto-acked.
+- server.mjs:1215: and delivered_at is not null
+- server.mjs:1216: and delivered_at < now() - ($1::int * interval '1 minute')
+- server.mjs:1217: order by delivered_at asc
+- server.mjs:1220: returning command_id, action, target_chat_id, status, delivered_at, acked_at
+- server.mjs:1226: ok: true,
+- server.mjs:1230: updated_count: result.rowCount,
+- server.mjs:1231: commands: result.rows
+- server.mjs:1276: status, delivery_attempts, created_at, delivered_at, acked_at, last_error
+- server.mjs:1281: and delivered_at is not null
+- server.mjs:1282: and delivered_at < now() - ($1::int * interval '1 minute')
+- server.mjs:1283: order by delivered_at asc
+- server.mjs:1291: ok: true,
+- server.mjs:1302: const result = await pool.query(
+- server.mjs:1306: when delivery_attempts >= $3 then 'failed'
+- server.mjs:1307: else 'queued'
+- server.mjs:1309: delivered_at = case
+- server.mjs:1310: when delivery_attempts >= $3 then delivered_at
+- server.mjs:1313: acked_at = case
+- server.mjs:1314: when delivery_attempts >= $3 then coalesce(acked_at, now())
+- server.mjs:1317: last_error = case
+- server.mjs:1319: then concat_ws('; ', nullif(last_error, ''), 'stale_interchat_delivery_failed_after_max_attempts')
+- server.mjs:1320: else concat_ws('; ', nullif(last_error, ''), 'stale_interchat_delivery_requeued')
+- server.mjs:1328: and delivered_at is not null
+- server.mjs:1329: and delivered_at < now() - ($1::int * interval '1 minute')
+- server.mjs:1330: order by delivered_at asc
+- server.mjs:1334: status, delivery_attempts, created_at, delivered_at, acked_at, last_error
+- server.mjs:1339: for (const row of result.rows) {
+- server.mjs:1342: row.status === "queued" ? "REQUEUED_STALE_INTERCHAT_DELIVERY" : "FAILED_STALE_INTERCHAT_DELIVERY",
+- server.mjs:1345: message: row.status === "queued"
+- server.mjs:1346: ? "stale inter-chat delivery requeued"
+- server.mjs:1347: : "stale inter-chat delivery failed after max attempts",
+- server.mjs:1353: last_error: row.last_error
+- server.mjs:1360: ok: true,
+- server.mjs:1365: updated_count: result.rowCount,
+- server.mjs:1366: commands: result.rows
+- server.mjs:1394: c.delivered_at,
+- server.mjs:1395: c.acked_at
+- server.mjs:1399: and c.delivered_at is not null
+- server.mjs:1400: and c.delivered_at < now() - ($1::int * interval '1 minute')
+- server.mjs:1405: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1407: order by c.delivered_at asc
+- server.mjs:1415: ok: true,
+- server.mjs:1427: ok: true,
+- server.mjs:1438: const result = await pool.query(
+- server.mjs:1441: set status = 'failed',
+- server.mjs:1442: acked_at = coalesce(acked_at, now()),
+- server.mjs:1443: last_error = concat_ws('; ', nullif(last_error, ''), 'worker_claimed_but_not_executed')
+- server.mjs:1452: delivered_at,
+- server.mjs:1453: acked_at
+- server.mjs:1458: for (const row of result.rows) {
+- server.mjs:1459: await insertBridgeCommandEvent(row.command_id, "FAILED", {
+- server.mjs:1463: status: "failed",
+- server.mjs:1466: error: "worker_claimed_but_not_executed",
+- server.mjs:1467: delivered_at: row.delivered_at || null,
+- server.mjs:1468: acked_at: row.acked_at || null
+- server.mjs:1478: ok: true,
+- server.mjs:1482: updated_count: result.rowCount,
+- server.mjs:1483: commands: result.rows
+- server.mjs:1489: // AUDIT_ACKED_UNEXECUTED_LOCAL_CAPABILITY_20260608_START
+- server.mjs:1490: async function auditAckedUnexecutedLocalCapability(body = {}) {
+- server.mjs:1510: c.delivered_at,
+- server.mjs:1511: c.acked_at,
+- server.mjs:1514: c.last_error
+- server.mjs:1516: where c.status = 'acked'
+- server.mjs:1524: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1526: order by c.acked_at desc
+- server.mjs:1534: ok: true,
+- server.mjs:1545: ok: true,
+- server.mjs:1555: const result = await pool.query(
+- server.mjs:1558: set status = 'failed',
+- server.mjs:1559: acked_at = coalesce(acked_at, now()),
+- server.mjs:1560: last_error = concat_ws('; ', nullif(last_error, ''), 'acked_without_local_execution')
+- server.mjs:1570: delivered_at,
+- server.mjs:1571: acked_at,
+- server.mjs:1574: last_error
+- server.mjs:1579: for (const row of result.rows) {
+- server.mjs:1580: await insertBridgeCommandEvent(row.command_id, "FAILED", {
+- server.mjs:1584: status: "failed",
+- server.mjs:1585: message: "command was acked without local execution",
+- server.mjs:1587: error: "acked_without_local_execution",
+- server.mjs:1588: delivered_at: row.delivered_at || null,
+- server.mjs:1589: acked_at: row.acked_at || null,
+- server.mjs:1596: await enqueueBridgeCommandFailureFeedback(row, "acked_without_local_execution");
+- server.mjs:1601: ok: true,
+- server.mjs:1604: updated_count: result.rowCount,
+- server.mjs:1605: commands: result.rows
+- server.mjs:1608: // AUDIT_ACKED_UNEXECUTED_LOCAL_CAPABILITY_20260608_END
+- server.mjs:1614: const status = String(body.status || "acked").trim();
+- server.mjs:1615: const error = body.error ? String(body.error).slice(0, 1000) : null;
+- server.mjs:1617: if (!commandId) throw new Error("command_id_required");
+- server.mjs:1619: const finalStatus = status === "failed" ? "failed" : "acked";
+- server.mjs:1621: if (finalStatus === "acked") {
+- server.mjs:1630: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1644: const ackResult = body && body.result && typeof body.result === "object" ? body.result : null;
+- server.mjs:1645: const nestedResult = ackResult && ackResult.result && typeof ackResult.result === "object" ? ackResult.result : null;
+- server.mjs:1646: const hasWorkerExecutionResult = !!(
+- server.mjs:1647: ackResult &&
+- server.mjs:1648: (Object.prototype.hasOwnProperty.call(ackResult, "ok") || Object.prototype.hasOwnProperty.call(ackResult, "error")) &&
+- server.mjs:1649: nestedResult &&
+- server.mjs:1650: (Object.prototype.hasOwnProperty.call(nestedResult, "return_code") ||
+- server.mjs:1651: Object.prototype.hasOwnProperty.call(nestedResult, "stdout") ||
+- server.mjs:1652: Object.prototype.hasOwnProperty.call(nestedResult, "stderr"))
+- server.mjs:1655: if (hasWorkerExecutionResult) {
+- server.mjs:1656: await insertBridgeCommandEvent(commandId, finalStatus === "failed" ? "RUN_COMMAND_FAILED" : "RUN_COMMAND_OK", {
+- server.mjs:1664: result: ackResult
+- server.mjs:1668: throw new Error("ack_rejected_local_capability_without_execution");
+- server.mjs:1677: const result = await client.query(
+- server.mjs:1681: acked_at = now(),
+- server.mjs:1682: last_error = $3
+- server.mjs:1684: returning id, command_id, status, acked_at
+- server.mjs:1686: [commandId, finalStatus, error]
+- server.mjs:1689: const row = result.rows[0] || null;
+- server.mjs:1698: finalStatus === "failed" ? "FAILED" : "ACKED",
+- server.mjs:1700: finalStatus === "failed" ? (error || "command failed") : "command acknowledged",
+- server.mjs:1702: stage: finalStatus === "failed" ? "FAILED" : "DONE",
+- server.mjs:1705: error: error || null
+
+## Database evidence
+
+- server.mjs:2: import { createHash } from "node:crypto"; import { Pool } from "pg"; import { handleGitOp } from "./git-op.mjs"; import { handleCodexAnalyze } from "./codex-analyze.mjs"; import { handleDbQuery, setDbQueryPool } from "./db-query.mjs"; import { enqueueMessage, 
+- server.mjs:193: const result = await probePool.query("select 1::int as ok");
+- server.mjs:291: await client.query("select 1");
+- server.mjs:292: const result = await client.query("select now() as now, current_database() as database");
+- server.mjs:312: // CLOUD_BRIDGE_V1
+- server.mjs:365: await pool.query(`
+- server.mjs:379: update brain.facts set fact_key = coalesce(fact_key, md5(coalesce(chat_id,'') || coalesce(fact_type,'') || coalesce(fact_text,'') || id::text)) where fact_key is null;
+- server.mjs:380: update brain.facts set fact_type = coalesce(fact_type, 'legacy') where fact_type is null;
+- server.mjs:381: update brain.facts set fact_text = coalesce(fact_text, evidence, title, 'legacy fact') where fact_text is null;
+- server.mjs:385: select 1 from pg_indexes
+- server.mjs:402: create table if not exists brain.conversation_snapshots (
+- server.mjs:420: create table if not exists brain.facts (
+- server.mjs:443: create table if not exists bridge_commands (
+- server.mjs:463: create index if not exists bridge_commands_target_status_created_idx
+- server.mjs:464: on bridge_commands (target_chat_id, status, created_at)
+- server.mjs:469: alter table bridge_commands add column if not exists claimed_at timestamptz,
+- server.mjs:483: create table if not exists bridge_command_events (
+- server.mjs:499: create table if not exists bridge_events (
+- server.mjs:510: create index if not exists bridge_events_chat_created_idx
+- server.mjs:511: on bridge_events (chat_id, created_at)
+- server.mjs:517: SELECT parent.command_id AS original_command_id,
+- server.mjs:526: FROM bridge_commands parent
+- server.mjs:532: SELECT 1 FROM bridge_commands reply
+- server.mjs:540: create table if not exists app.chat_threads (
+- server.mjs:563: create table if not exists app.chat_messages (
+- server.mjs:565: event_id bigint references bridge_events(id) on delete set null,
+- server.mjs:580: create unique index if not exists app_chat_messages_event_id_uidx
+- server.mjs:581: on app.chat_messages (event_id)
+- server.mjs:586: create index if not exists app_chat_messages_chat_created_idx
+- server.mjs:587: on app.chat_messages (chat_id, created_at)
+- server.mjs:681: const result = await pool.query(
+- server.mjs:683: insert into bridge_command_events (
+- server.mjs:721: const command = await pool.query(
+- server.mjs:723: select id, command_id, source_chat_id, target_chat_id, action, delivery_kind,
+- server.mjs:726: from bridge_commands
+- server.mjs:733: const events = await pool.query(
+- server.mjs:735: select id, command_id, event_type, runner_id, pid, return_code, duration_ms,
+- server.mjs:737: from bridge_command_events
+- server.mjs:746: events: events.rows
+- server.mjs:807: insert into bridge_commands (
+- server.mjs:842: payload: { bridge_command_id: row?.id || null, delivery_kind: deliveryKind, conversation_id: conversationId }
+- server.mjs:852: const result = await pool.query(
+- server.mjs:853: `SELECT * FROM pending_replies WHERE waiting_chat_id = $1 ORDER BY original_created_at ASC LIMIT 10`,
+- server.mjs:897: const result = await pool.query(
+- server.mjs:899: insert into brain.conversation_snapshots
+- server.mjs:926: const messages = Array.isArray(snap.messages) ? snap.messages : [];
+- server.mjs:927: for (const msg of messages.slice(-12)) {
+- server.mjs:960: add("queue_backlog", "warning", "Queue pending work or backlog signal detected.", /(queue|fila|backlog|pending|pendentes|row_count|bridge_commands|claim|next-action)/i);
+- server.mjs:966: `insert into brain.facts (fact_key,fact_type,chat_id,source_snapshot_id,severity,title,fact_text,evidence,metadata,is_active,created_at,updated_at)
+- server.mjs:968: on conflict (fact_key) do update set severity=excluded.severity,title=excluded.title,fact_text=excluded.fact_text,evidence=excluded.evidence,metadata=excluded.metadata,is_active=true,updated_at=now()`,
+- server.mjs:977: const snapshots = await client.query(`select id,chat_id,coalesce(title,'') as title,message_count,snapshot_json,created_at from brain.conversation_snapshots order by created_at desc limit 200`);
+- server.mjs:1013: const result = await pool.query(`select id,fact_key,fact_type,chat_id,source_snapshot_id,severity,title,fact_text,evidence,metadata,is_active,created_at,updated_at from brain.facts ${whereSql} order by created_at desc limit $${params.length}`, params);
+- server.mjs:1037: select id, command_id, payload_json
+- server.mjs:1038: from bridge_commands
+- server.mjs:1043: for update skip locked
+- server.mjs:1057: update bridge_commands
+- server.mjs:1069: insert into bridge_command_events (command_id, event_type, message, payload_json)
+- server.mjs:1082: bridge_command_id: row.id
+- server.mjs:1101: async function cancelStaleQueuedCommands(body = {}) {
+- server.mjs:1110: const candidates = await pool.query(
+- server.mjs:1112: select command_id, action, source_chat_id, target_chat_id, status, created_at
+- server.mjs:1113: from bridge_commands
+- server.mjs:1130: commands: candidates.rows
+- server.mjs:1134: const result = await pool.query(
+- server.mjs:1136: update bridge_commands
+- server.mjs:1141: select id
+- server.mjs:1142: from bridge_commands
+- server.mjs:1159: commands: result.rows
+- server.mjs:1163: async function autoAckStaleDeliveredCommands(body = {}) {
+- server.mjs:1172: const candidates = await pool.query(
+- server.mjs:1174: select command_id, action, target_chat_id, status, delivered_at, acked_at
+- server.mjs:1175: from bridge_commands
+- server.mjs:1197: commands: candidates.rows
+- server.mjs:1201: const result = await pool.query(
+- server.mjs:1203: update bridge_commands
+- server.mjs:1208: select id
+- server.mjs:1209: from bridge_commands
+- server.mjs:1231: commands: result.rows
+- server.mjs:1273: const candidates = await pool.query(
+- server.mjs:1275: select id, command_id, action, delivery_kind, source_chat_id, target_chat_id,
+- server.mjs:1277: from bridge_commands
+- server.mjs:1298: commands: candidates.rows
+- server.mjs:1302: const result = await pool.query(
+- server.mjs:1304: update bridge_commands
+- server.mjs:1323: select id
+- server.mjs:1324: from bridge_commands
+- server.mjs:1349: bridge_command_id: row.id,
+- server.mjs:1366: commands: result.rows
+- server.mjs:1384: const candidates = await pool.query(
+- server.mjs:1386: select c.id,
+- server.mjs:1396: from bridge_commands c
+- server.mjs:1402: select 1
+- server.mjs:1403: from bridge_command_events e
+- server.mjs:1421: commands: candidates.rows
+- server.mjs:1432: commands: []
+- server.mjs:1438: const result = await pool.query(
+- server.mjs:1440: update bridge_commands
+- server.mjs:1483: commands: result.rows
+- server.mjs:1499: const candidates = await pool.query(
+- server.mjs:1501: select c.id,
+- server.mjs:1515: from bridge_commands c
+- server.mjs:1521: select 1
+- server.mjs:1522: from bridge_command_events e
+- server.mjs:1539: commands: candidates.rows
+- server.mjs:1549: commands: []
+- server.mjs:1555: const result = await pool.query(
+- server.mjs:1557: update bridge_commands
+- server.mjs:1605: commands: result.rows
+- server.mjs:1622: const guard = await pool.query(
+- server.mjs:1624: select c.delivery_kind,
+- server.mjs:1627: select 1
+- server.mjs:1628: from bridge_command_events e
+- server.mjs:1632: from bridge_commands c
+- server.mjs:1679: update bridge_commands
+- server.mjs:1693: insert into bridge_command_events (command_id, event_type, return_code, message, payload_json)
+- server.mjs:1718: function bridgeEventString(value) {
+- server.mjs:1725: function firstBridgeEventString(event, paths) {
+- server.mjs:1736: const text = bridgeEventString(value);
+- server.mjs:1744: return firstBridgeEventString(event, [
+- server.mjs:1768: const explicit = bridgeEventString(event.direction || event.message_direction);
+- server.mjs:1791: const role = firstBridgeEventString(event, [
+- server.mjs:1800: const conversationId = firstBridgeEventString(event, [
+- server.mjs:1805: const commandId = firstBridgeEventString(event, [
+- server.mjs:1811: const rawPlatform = firstBridgeEventString(event, [
+- server.mjs:1823: insert into app.chat_threads (
+- server.mjs:1851: const seqResult = await client.query('select coalesce(max(seq_no),0)+1 as seq_no from app.chat_messages where thread_id = $1', [threadId]);
+- server.mjs:1856: insert into app.chat_messages (
+- server.mjs:1914: insert into bridge_events (chat_id, source, kind, payload_json)
+- server.mjs:1933: // BRIDGE_HEALTH_NO_SCHEMA_DDL_20260608: health must be lightweight; do not run schema DDL/migrations inside request path.
+- server.mjs:1937: const commands = await client.query("select status, count(*)::int as count from bridge_commands group by status order by status");
+- server.mjs:1938: const events = await client.query("select count(*)::int as count from bridge_events");
+- server.mjs:1939: const threads = await client.query("select count(*)::int as count from app.chat_threads");
+- server.mjs:1940: const messages = await client.query("select count(*)::int as count from app.chat_messages");
+- server.mjs:1949: commands_by_status: commands.rows,
+- server.mjs:1950: events_count: events.rows[0]?.count ?? 0,
+- server.mjs:1952: chat_messages_count: messages.rows[0]?.count ?? 0
+- server.mjs:2053: if (req.method === "GET" && url.pathname === "/bridge/commands/timeline") {
+- server.mjs:2069: if (req.method === "POST" && url.pathname === "/bridge/commands") {
+- server.mjs:2212: if (req.method === "POST" && url.pathname === "/bridge/commands/cancel-stale-queued") {
+- server.mjs:2215: const result = await cancelStaleQueuedCommands(body);
+- server.mjs:2230: if (req.method === "POST" && url.pathname === "/bridge/commands/audit-acked-unexecuted-local-capability") {
+- server.mjs:2247: if (req.method === "POST" && url.pathname === "/bridge/commands/fail-stale-unexecuted-local-capability") {
+- server.mjs:2264: if (req.method === "POST" && url.pathname === "/bridge/commands/recover-stale-interchat-deliveries") {
+- server.mjs:2280: if (req.method === "POST" && url.pathname === "/bridge/commands/auto-ack-stale-delivered") {
+- server.mjs:2283: const result = await autoAckStaleDeliveredCommands(body);
+- server.mjs:2329: if (req.method === "POST" && url.pathname === "/bridge/events") {
+- server.mjs:2467: try { const body = await readJsonBody(req); const result = await updateMessageStatus(body.message_id, body.status || "delivered", body.error); writeJson(res, 200, { ok: true, service: SERVICE_NAME, ack: result, timestamp: nowIso() }); } catch (error) { writeBr
+- server.mjs:2503: async function processChatMessages(chatId) {
+- server.mjs:2511: await updateMessageStatus(msg.id, 'delivered', null);
+- server.mjs:2520: async function pollAndDeliverMessages() {
+- server.mjs:2522: const activeChats = await pool.query(
+- server.mjs:2523: `SELECT DISTINCT target_chat_id FROM ops.message_queue WHERE status = 'queued' LIMIT $1`,
+- server.mjs:2527: const promises = activeChats.rows.map(row => processChatMessages(row.target_chat_id));
+- server.mjs:2535: setInterval(pollAndDeliverMessages, WORKER_POLL_INTERVAL_MS);
+
+## Command/gateway flow evidence
+
+- server.mjs:2: import { createHash } from "node:crypto"; import { Pool } from "pg"; import { handleGitOp } from "./git-op.mjs"; import { handleCodexAnalyze } from "./codex-analyze.mjs"; import { handleDbQuery, setDbQueryPool } from "./db-query.mjs"; import { enqueueMessage, 
+- server.mjs:6: const API_DEPLOY_MARKER = "rejection-feedback-delivery-adbcc74";
+- server.mjs:443: create table if not exists bridge_commands (
+- server.mjs:445: command_id text not null unique,
+- server.mjs:449: delivery_kind text,
+- server.mjs:454: delivery_attempts integer not null default 0,
+- server.mjs:457: acked_at timestamptz,
+- server.mjs:463: create index if not exists bridge_commands_target_status_created_idx
+- server.mjs:464: on bridge_commands (target_chat_id, status, created_at)
+- server.mjs:469: alter table bridge_commands add column if not exists claimed_at timestamptz,
+- server.mjs:483: create table if not exists bridge_command_events (
+- server.mjs:485: command_id text not null,
+- server.mjs:514: // PENDING_REPLIES_VIEW_V1
+- server.mjs:516: CREATE OR REPLACE VIEW pending_replies AS
+- server.mjs:517: SELECT parent.command_id AS original_command_id,
+- server.mjs:521: parent.delivery_kind,
+- server.mjs:526: FROM bridge_commands parent
+- server.mjs:527: WHERE parent.delivery_kind = 'inter_agent_message'
+- server.mjs:532: SELECT 1 FROM bridge_commands reply
+- server.mjs:533: WHERE (reply.payload_json->>'reply_to_command_id') = parent.command_id
+- server.mjs:538: // PENDING_REPLIES_VIEW_V1
+- server.mjs:573: command_id text,
+- server.mjs:595: function normalizeBridgeCommandForInsert(command) {
+- server.mjs:596: const original = command && typeof command === "object" ? command : {};
+- server.mjs:624: let commandList;
+- server.mjs:627: commandList = ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", fullPath];
+- server.mjs:630: commandList = ["D:/dev/autocode/ai-bridge/.venv/Scripts/python.exe", fullPath];
+- server.mjs:637: action: "run-command",
+- server.mjs:639: delivery_kind: original.delivery_kind || "local_capability",
+- server.mjs:645: command: commandList,
+- server.mjs:652: function commandTimelinePercent(eventType) {
+- server.mjs:657: CLAIMED_BY_GATEWAY: 60,
+- server.mjs:659: ACKED: 100,
+- server.mjs:666: async function insertBridgeCommandEvent(commandId, eventType, options = {}) {
+- server.mjs:667: const id = String(commandId || "").trim();
+- server.mjs:673: percent: options.percent ?? commandTimelinePercent(type),
+- server.mjs:683: insert into bridge_command_events (
+- server.mjs:684: command_id,
+- server.mjs:696: returning id, command_id, event_type, message, payload_json, created_at
+- server.mjs:715: async function commandTimeline(commandId) {
+- server.mjs:718: const id = String(commandId || "").trim();
+- server.mjs:719: if (!id) throw new Error("command_id_required");
+- server.mjs:721: const command = await pool.query(
+- server.mjs:723: select id, command_id, source_chat_id, target_chat_id, action, delivery_kind,
+- server.mjs:724: conversation_id, status, delivery_attempts, created_at, delivered_at,
+- server.mjs:725: claimed_at, started_at, heartbeat_at, finished_at, acked_at, last_error
+- server.mjs:726: from bridge_commands
+- server.mjs:727: where command_id = $1
+- server.mjs:735: select id, command_id, event_type, runner_id, pid, return_code, duration_ms,
+- server.mjs:737: from bridge_command_events
+- server.mjs:738: where command_id = $1
+- server.mjs:745: command: command.rows[0] || null,
+- server.mjs:750: async function insertBridgeCommand(command) {
+- server.mjs:752: command = normalizeBridgeCommandForInsert(command);
+- server.mjs:755: const commandId = String(command.command_id || "").trim();
+- server.mjs:756: const action = String(command.action || "").trim();
+- server.mjs:757: const targetChatId = canonicalChatId(command.target_chat_id);
+- server.mjs:758: const sourceChatId = canonicalChatId(command.source_chat_id || "");
+- server.mjs:759: const deliveryKind = String(command.delivery_kind || "inter_agent_message");
+- server.mjs:760: const conversationId = String(command.conversation_id || commandId);
+- server.mjs:761: const fromAgent = String(command.from_agent || "");
+- server.mjs:763: if (!commandId) throw new Error("command_id_required");
+- server.mjs:768: const replyToCommandId = String(command.reply_to_command_id || command.replyToCommandId || "").trim();
+- server.mjs:770: action === "send-chat-message" &&
+- server.mjs:773: commandId.startsWith("reply_to_api_ingest_rejection_feedback_") ||
+- server.mjs:774: replyToCommandId.startsWith("api_ingest_rejection_feedback_") ||
+- server.mjs:775: conversationId === "api_ingest_rejection_feedback"
+- server.mjs:779: await insertBridgeCommandEvent(commandId, "SUPPRESSED", {
+- server.mjs:786: reason: "api_rejection_feedback_replies_are_not_queued",
+- server.mjs:787: delivery_kind: deliveryKind,
+- server.mjs:789: reply_to_command_id: replyToCommandId
+- server.mjs:796: command_id: commandId,
+- server.mjs:799: reason: "api_rejection_feedback_replies_are_not_queued"
+- server.mjs:807: insert into bridge_commands (
+- server.mjs:808: command_id,
+- server.mjs:812: delivery_kind,
+- server.mjs:819: on conflict (command_id) do update
+- server.mjs:821: returning id, command_id, status, created_at
+- server.mjs:824: commandId,
+- server.mjs:828: deliveryKind,
+- server.mjs:831: JSON.stringify(command)
+- server.mjs:836: await insertBridgeCommandEvent(commandId, "QUEUED", {
+- server.mjs:841: message: "command queued by API",
+- server.mjs:842: payload: { bridge_command_id: row?.id || null, delivery_kind: deliveryKind, conversation_id: conversationId }
+- server.mjs:851: async function getPendingRepliesForChat(chatId) {
+- server.mjs:853: `SELECT * FROM pending_replies WHERE waiting_chat_id = $1 ORDER BY original_created_at ASC LIMIT 10`,
+- server.mjs:857: // DISABLE_AUTO_STATUS_PENDING_REPLIES_20260608: do not generate automatic bridge status notices as chat pending replies.
+- server.mjs:858: // Real pending replies from the pending_replies view above are still returned.
+- server.mjs:878: last_submitted_command_id: String(body.last_submitted_command_id || body.lastSubmittedCommandId || '').slice(0, 200),
+- server.mjs:879: last_api_ack_id: String(body.last_api_ack_id || body.lastApiAckId || '').slice(0, 200)
+- server.mjs:882: const pending_replies = await getPendingRepliesForChat(chatId);
+- server.mjs:884: if (payload.last_submitted_command_id) {
+- server.mjs:885: try { timeline_status = await commandTimeline(payload.last_submitted_command_id); } catch (error) { timeline_status = { error: error && error.message ? error.message : String(error) }; }
+- server.mjs:887: return { ok: true, event, chat_id: chatId, pending_replies, timeline_status };
+- server.mjs:955: add("stalled_chat", "warning", "Conversation appears stalled or waiting for follow-up.", /(aguard|waiting|pendente|pending|sem resposta|stalled|parado)/i);
+- server.mjs:957: add("error_detected", "error", "Error or failure signal detected.", /(traceback|exception|error|erro|failed|failure|falhou|rejected|malformed|timeout|NameError|TypeError|SyntaxError)/i);
+- server.mjs:958: add("task_completed", "info", "Completion or success signal detected.", /(TASK_DONE|DISPATCH_QUEUED|commit|push|acked|concluido|concluÃƒÆ’Ã‚Â­do|feito|done|passed|ok": true|returncode": 0)/i);
+- server.mjs:959: add("needs_attention", "warning", "Pending item or attention request detected.", /(precisa|pendencia|pendÃƒÆ’Ã‚Â«ncia|pendente|needs attention|atencao|atenÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o|bloqueado|blocked|must|deve|corrigir|fix|nao encontrado|nÃƒÆ’Ã‚Â£o encontrado)/i);
+- server.mjs:960: add("queue_backlog", "warning", "Queue pending work or backlog signal detected.", /(queue|fila|backlog|pending|pendentes|row_count|bridge_commands|claim|next-action)/i);
+- server.mjs:1029: const pending_replies = await getPendingRepliesForChat(targetChatId);
+- server.mjs:1037: select id, command_id, payload_json
+- server.mjs:1038: from bridge_commands
+- server.mjs:1050: return { action: null, pending_replies };
+- server.mjs:1057: update bridge_commands
+- server.mjs:1059: delivery_attempts = delivery_attempts + 1,
+- server.mjs:1069: insert into bridge_command_events (command_id, event_type, message, payload_json)
+- server.mjs:1073: row.command_id,
+- server.mjs:1074: "CLAIMED_BY_GATEWAY",
+- server.mjs:1075: "command claimed by gateway",
+- server.mjs:1077: stage: "CLAIMED_BY_GATEWAY",
+- server.mjs:1082: bridge_command_id: row.id
+- server.mjs:1090: action_id: row.command_id,
+- server.mjs:1094: await client.query("rollback");
+- server.mjs:1101: async function cancelStaleQueuedCommands(body = {}) {
+- server.mjs:1112: select command_id, action, source_chat_id, target_chat_id, status, created_at
+- server.mjs:1113: from bridge_commands
+- server.mjs:1130: commands: candidates.rows
+- server.mjs:1136: update bridge_commands
+- server.mjs:1138: acked_at = coalesce(acked_at, now()),
+- server.mjs:1142: from bridge_commands
+- server.mjs:1148: returning command_id, action, source_chat_id, target_chat_id, status, created_at
+- server.mjs:1159: commands: result.rows
+- server.mjs:1163: async function autoAckStaleDeliveredCommands(body = {}) {
+- server.mjs:1174: select command_id, action, target_chat_id, status, delivered_at, acked_at
+- server.mjs:1175: from bridge_commands
+- server.mjs:1177: and delivery_kind = 'inter_agent_message'
+- server.mjs:1178: and action <> 'run-command'
+- server.mjs:1179: -- AUTO_ACK_EXCLUDE_SEND_CHAT_MESSAGE_20260608: send-chat-message must be recovered/retried, not auto-acked.
+- server.mjs:1180: and action <> 'send-chat-message'
+- server.mjs:1197: commands: candidates.rows
+- server.mjs:1203: update bridge_commands
+- server.mjs:1204: set status = 'acked',
+- server.mjs:1205: acked_at = coalesce(acked_at, now()),
+- server.mjs:1206: last_error = concat_ws('; ', nullif(last_error, ''), 'auto_ack_stale_delivered')
+- server.mjs:1209: from bridge_commands
+- server.mjs:1211: and delivery_kind = 'inter_agent_message'
+- server.mjs:1212: and action <> 'run-command'
+- server.mjs:1213: -- AUTO_ACK_EXCLUDE_SEND_CHAT_MESSAGE_20260608: send-chat-message must be recovered/retried, not auto-acked.
+- server.mjs:1214: and action <> 'send-chat-message'
+- server.mjs:1220: returning command_id, action, target_chat_id, status, delivered_at, acked_at
+- server.mjs:1231: commands: result.rows
+- server.mjs:1237: async function enqueueBridgeCommandFailureFeedback(row, reason) {
+- server.mjs:1239: const originalCommandId = String(row && row.command_id || "").trim();
+- server.mjs:1240: if (!sourceChatId || !originalCommandId) return null;
+- server.mjs:1242: const safeReason = String(reason || "worker_claimed_but_not_executed").slice(0, 500);
+- server.mjs:1244: return insertBridgeCommand({
+- server.mjs:1245: command_id: "feedback_" + originalCommandId + "_" + Date.now(),
+- server.mjs:1246: action: "send-chat-message",
+- server.mjs:1249: delivery_kind: "inter_agent_message",
+- server.mjs:1250: reply_to_command_id: originalCommandId,
+- server.mjs:1251: conversation_id: row.conversation_id || ("feedback_" + originalCommandId),
+- server.mjs:1253: message: "comando rejeitado: " + safeReason + "; command_id=" + originalCommandId
+- server.mjs:1275: select id, command_id, action, delivery_kind, source_chat_id, target_chat_id,
+- server.mjs:1276: status, delivery_attempts, created_at, delivered_at, acked_at, last_error
+- server.mjs:1277: from bridge_commands
+- server.mjs:1279: and delivery_kind = 'inter_agent_message'
+- server.mjs:1280: and action = 'send-chat-message'
+- server.mjs:1298: commands: candidates.rows
+- server.mjs:1304: update bridge_commands
+- server.mjs:1306: when delivery_attempts >= $3 then 'failed'
+- server.mjs:1310: when delivery_attempts >= $3 then delivered_at
+- server.mjs:1313: acked_at = case
+- server.mjs:1314: when delivery_attempts >= $3 then coalesce(acked_at, now())
+- server.mjs:1318: when delivery_attempts >= $3
+- server.mjs:1319: then concat_ws('; ', nullif(last_error, ''), 'stale_interchat_delivery_failed_after_max_attempts')
+- server.mjs:1320: else concat_ws('; ', nullif(last_error, ''), 'stale_interchat_delivery_requeued')
+- server.mjs:1324: from bridge_commands
+- server.mjs:1326: and delivery_kind = 'inter_agent_message'
+- server.mjs:1327: and action = 'send-chat-message'
+- server.mjs:1333: returning id, command_id, action, delivery_kind, source_chat_id, target_chat_id,
+- server.mjs:1334: status, delivery_attempts, created_at, delivered_at, acked_at, last_error
+- server.mjs:1340: await insertBridgeCommandEvent(
+- server.mjs:1341: row.command_id,
+- server.mjs:1342: row.status === "queued" ? "REQUEUED_STALE_INTERCHAT_DELIVERY" : "FAILED_STALE_INTERCHAT_DELIVERY",
+- server.mjs:1346: ? "stale inter-chat delivery requeued"
+- server.mjs:1347: : "stale inter-chat delivery failed after max attempts",
+- server.mjs:1349: bridge_command_id: row.id,
+- server.mjs:1352: delivery_attempts: row.delivery_attempts,
+- server.mjs:1366: commands: result.rows
+- server.mjs:1381: // FAIL_STALE_SEND_FEEDBACK_OPTION_20260608
+- server.mjs:1382: const sendFeedback = body.send_feedback !== false;
+- server.mjs:1387: c.command_id,
+- server.mjs:1395: c.acked_at
+- server.mjs:1396: from bridge_commands c
+- server.mjs:1398: and (c.delivery_kind = 'local_capability' or c.action = 'run-command')
+- server.mjs:1403: from bridge_command_events e
+- server.mjs:1404: where e.command_id = c.command_id
+- server.mjs:1405: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1421: commands: candidates.rows
+- server.mjs:1432: commands: []
+- server.mjs:1440: update bridge_commands
+- server.mjs:1442: acked_at = coalesce(acked_at, now()),
+- server.mjs:1443: last_error = concat_ws('; ', nullif(last_error, ''), 'worker_claimed_but_not_executed')
+- server.mjs:1445: returning command_id,
+- server.mjs:1453: acked_at
+- server.mjs:1459: await insertBridgeCommandEvent(row.command_id, "FAILED", {
+- server.mjs:1464: message: "worker claimed command but did not execute it",
+- server.mjs:1466: error: "worker_claimed_but_not_executed",
+- server.mjs:1468: acked_at: row.acked_at || null
+- server.mjs:1472: if (sendFeedback) {
+- server.mjs:1473: await enqueueBridgeCommandFailureFeedback(row, "worker_claimed_but_not_executed");
+- server.mjs:1483: commands: result.rows
+- server.mjs:1489: // AUDIT_ACKED_UNEXECUTED_LOCAL_CAPABILITY_20260608_START
+- server.mjs:1490: async function auditAckedUnexecutedLocalCapability(body = {}) {
+- server.mjs:1497: const sendFeedback = body.send_feedback !== false;
+- server.mjs:1502: c.command_id,
+- server.mjs:1511: c.acked_at,
+- server.mjs:1515: from bridge_commands c
+- server.mjs:1516: where c.status = 'acked'
+- server.mjs:1517: and (c.delivery_kind = 'local_capability' or c.action = 'run-command')
+- server.mjs:1522: from bridge_command_events e
+- server.mjs:1523: where e.command_id = c.command_id
+- server.mjs:1524: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1526: order by c.acked_at desc
+- server.mjs:1539: commands: candidates.rows
+- server.mjs:1549: commands: []
+- server.mjs:1557: update bridge_commands
+- server.mjs:1559: acked_at = coalesce(acked_at, now()),
+- server.mjs:1560: last_error = concat_ws('; ', nullif(last_error, ''), 'acked_without_local_execution')
+- server.mjs:1562: returning command_id,
+- server.mjs:1571: acked_at,
+- server.mjs:1580: await insertBridgeCommandEvent(row.command_id, "FAILED", {
+- server.mjs:1585: message: "command was acked without local execution",
+- server.mjs:1587: error: "acked_without_local_execution",
+- server.mjs:1589: acked_at: row.acked_at || null,
+- server.mjs:1595: if (sendFeedback) {
+- server.mjs:1596: await enqueueBridgeCommandFailureFeedback(row, "acked_without_local_execution");
+- server.mjs:1605: commands: result.rows
+- server.mjs:1608: // AUDIT_ACKED_UNEXECUTED_LOCAL_CAPABILITY_20260608_END
+- server.mjs:1610: async function ackBridgeCommand(body) {
+- server.mjs:1613: const commandId = String(body.command_id || body.action_id || "").trim();
+- server.mjs:1614: const status = String(body.status || "acked").trim();
+- server.mjs:1617: if (!commandId) throw new Error("command_id_required");
+- server.mjs:1619: const finalStatus = status === "failed" ? "failed" : "acked";
+- server.mjs:1620: // ACK_GUARD_LOCAL_CAPABILITY_EXECUTION_20260608_START
+- server.mjs:1621: if (finalStatus === "acked") {
+- server.mjs:1624: select c.delivery_kind,
+- server.mjs:1628: from bridge_command_events e
+- server.mjs:1629: where e.command_id = c.command_id
+- server.mjs:1630: and e.event_type in ('RUN_COMMAND_OK','RUN_COMMAND_FAILED')
+- server.mjs:1632: from bridge_commands c
+- server.mjs:1633: where c.command_id = $1
+- server.mjs:1636: [commandId]
+- server.mjs:1640: const isLocal = row.delivery_kind === "local_capability" || row.action === "run-command";
+- server.mjs:1643: // ACK_GUARD_SYNTHESIZE_TERMINAL_FROM_WORKER_ACK_20260608
+- server.mjs:1644: const ackResult = body && body.result && typeof body.result === "object" ? body.result : null;
+- server.mjs:1645: const nestedResult = ackResult && ackResult.result && typeof ackResult.result === "object" ? ackResult.result : null;
+- server.mjs:1647: ackResult &&
+- server.mjs:1648: (Object.prototype.hasOwnProperty.call(ackResult, "ok") || Object.prototype.hasOwnProperty.call(ackResult, "error")) &&
+- server.mjs:1656: await insertBridgeCommandEvent(commandId, finalStatus === "failed" ? "RUN_COMMAND_FAILED" : "RUN_COMMAND_OK", {
+- server.mjs:1661: message: "local capability execution completed before ack",
+- server.mjs:1663: synthesized_from_ack: true,
+- server.mjs:1664: result: ackResult
+- server.mjs:1668: throw new Error("ack_rejected_local_capability_without_execution");
+- server.mjs:1672: // ACK_GUARD_LOCAL_CAPABILITY_EXECUTION_20260608_END
+- server.mjs:1679: update bridge_commands
+- server.mjs:1681: acked_at = now(),
+- server.mjs:1683: where command_id = $1
+- server.mjs:1684: returning id, command_id, status, acked_at
+- server.mjs:1686: [commandId, finalStatus, error]
+
+## Preliminary interpretation
+
+- apps/watcher-api/src/server.mjs is the primary Railway-side gateway/API candidate.
+- WS AI Office should not copy execution behavior yet.
+- The next step should classify exact route names and JSON envelope fields into a stable compatibility table.
+- Any later integration must start readonly: health/status/queue visibility only.
+
+## Recommended next micro
+
+Create a compact compatibility table: route, method, purpose, request fields, response fields, safety level.

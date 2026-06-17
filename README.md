@@ -111,3 +111,28 @@ Expected:
 3. Add approval gate.
 4. Add readonly AI Bridge Local status integration.
 5. Add controlled command execution with audit and rollback.
+
+## Live readonly deployment
+
+Current Railway readonly deployment:
+
+    https://web-production-de25.up.railway.app
+
+Validated endpoints:
+
+- GET /health
+- GET /ready
+- GET /status
+- GET /agents
+- GET /tasks
+- GET /audit-events
+
+Validated safety flags:
+
+- database_enabled=false
+- execution_enabled=false
+- local_runner_enabled=false
+
+Remote smoke:
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\smoke_railway_remote_readonly.ps1

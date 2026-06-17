@@ -78,3 +78,28 @@ Phase 2: Postgres integration with explicit approval.
 Phase 3: approval gate.
 Phase 4: readonly local runner bridge.
 Phase 5: controlled execution with audit, rollback plan and smoke requirements.
+
+## Validated Railway deployment
+
+Readonly deployment URL:
+
+    https://web-production-de25.up.railway.app
+
+Validation status:
+
+- /health OK
+- /ready OK
+- /status OK
+- /agents OK
+- /tasks OK
+- /audit-events OK
+
+Validated safety flags:
+
+- database_enabled=false
+- execution_enabled=false
+- local_runner_enabled=false
+
+Remote smoke command:
+
+    powershell -NoProfile -ExecutionPolicy Bypass -File scripts\smoke_railway_remote_readonly.ps1

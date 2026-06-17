@@ -1,0 +1,2 @@
+﻿# WS AI Office currently uses only Python standard library.
+# Keep this file for Railway/buildpack detection and future dependencies.

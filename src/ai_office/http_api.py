@@ -1,6 +1,7 @@
 ﻿from __future__ import annotations
 
 import json
+import os
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from typing import Any
 from urllib.parse import urlparse
@@ -116,11 +117,14 @@ def create_server(host: str = "127.0.0.1", port: int = 8787) -> OfficeHttpServer
 
 
 def main() -> None:
-    server = create_server()
-    host, port = server.server_address
-    print(f"WS_AI_OFFICE_HTTP_API_LISTENING http://{host}:{port}")
+    host = os.environ.get("HOST", "0.0.0.0")
+    port = int(os.environ.get("PORT", "8787"))
+    server = create_server(host=host, port=port)
+    actual_host, actual_port = server.server_address
+    print(f"WS_AI_OFFICE_HTTP_API_LISTENING http://{actual_host}:{actual_port}")
     server.serve_forever()
 
 
 if __name__ == "__main__":
     main()
+

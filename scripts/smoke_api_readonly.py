@@ -1,4 +1,4 @@
-﻿from ai_office.api import create_default_store, get_readonly_status
+﻿from ai_office.service import create_default_store, get_readonly_status
 
 
 def test_default_store_status() -> None:
@@ -32,3 +32,4 @@ if __name__ == "__main__":
     test_default_store_status()
     test_snapshot_shape()
     print("SMOKE_API_READONLY_OK")
+

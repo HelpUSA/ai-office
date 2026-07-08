@@ -1,0 +1,59 @@
+{
+  "audit_trail": {
+    "authorization_status": "synthetic_fixture_only",
+    "consumer": "AI Office",
+    "rejected_reason": null,
+    "validation_status": "pending_smoke_validation"
+  },
+  "checksum": "synthetic-checksum-documentation-only",
+  "data_minimization": {
+    "contains_customer_secrets": false,
+    "contains_payment_tokens": false,
+    "contains_private_credentials": false,
+    "contains_production_queue_payloads": false,
+    "synthetic_only": true
+  },
+  "extraction_window": {
+    "from": "2026-07-08T00:00:00Z",
+    "to": "2026-07-08T00:00:00Z"
+  },
+  "generated_at": "2026-07-08T00:00:00Z",
+  "pagination": {
+    "cursor": null,
+    "limit": 100,
+    "next_cursor": null,
+    "on_overflow": "safe_failure"
+  },
+  "record_count": 2,
+  "records": [
+    {
+      "available": true,
+      "name": "Synthetic Cheese Pizza",
+      "price_cents": 1299,
+      "record_id": "synthetic-menu-001",
+      "record_type": "menu_item_summary"
+    },
+    {
+      "record_id": "synthetic-order-summary-001",
+      "record_type": "order_summary",
+      "status": "synthetic_ready",
+      "total_cents": 1299
+    }
+  ],
+  "schema_version": "pizza_readonly_snapshot.v1",
+  "snapshot_id": "synthetic-pizza-readonly-v1-20260708-001",
+  "snapshot_timestamp": "2026-07-08T00:00:00Z",
+  "source_branch": "main",
+  "source_commit": "synthetic-no-live-source",
+  "source_repository": "HelpUSA/pizza",
+  "staleness_policy": {
+    "max_age_seconds": 86400,
+    "on_stale": "safe_failure"
+  },
+  "store_id": "store_synthetic_demo",
+  "tenant_id": "tenant_synthetic_demo",
+  "timeout_policy": {
+    "on_timeout": "safe_failure",
+    "timeout_ms": 3000
+  }
+}

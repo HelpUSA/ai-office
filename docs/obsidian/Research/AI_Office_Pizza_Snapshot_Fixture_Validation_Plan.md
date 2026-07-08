@@ -3,8 +3,6 @@
 Date: 2026-06-18
 Status: documentation only. No route creation. No database change. No migration. No runtime gateway integration. No live production data access.
 
-## Purpose
-
 This Micro49 document defines how AI Office should validate Pizza App approved readonly snapshot fixtures before any runtime consumption. Pizza App remains the source of truth. AI Office consumes approved readonly snapshots only after explicit approval gates.
 
 ## Fixture scope
